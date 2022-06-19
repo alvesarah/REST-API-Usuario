@@ -21,3 +21,14 @@ class UserModel(banco.Model):
             'email': self.email,
             'telefone': self.telefone
         }
+
+    @classmethod
+    def find_user(cls, id):
+        user = cls.query.filter_by(id=id).first()
+        if user:
+            return user
+        return None
+
+    def save_user(self):
+        banco.session.add(self)
+        banco.session.commit()
