@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from models.user import UserModel
 class Users(Resource):
     def get(self):
-        return {'users': users}
+        return {'users': [user.json() for user in UserModel.query.all()]}
 
 class User(Resource):   
     argumentos = reqparse.RequestParser()
