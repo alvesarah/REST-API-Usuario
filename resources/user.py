@@ -1,7 +1,7 @@
 import email
 from flask_restful import Resource, reqparse
 from models.user import UserModel
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import safe_str_cmp
 
 argumentos = reqparse.RequestParser()
@@ -20,7 +20,10 @@ class User(Resource):
         if user:
             return user.json()
         return {'message': 'User not found.'}, 404
+
 class UserPut(Resource):
+
+    @jwt_required()
     def put(self, id):
         dados = argumentos.parse_args()
         user_encontrado = UserModel.find_user(id)
@@ -35,8 +38,9 @@ class UserPut(Resource):
             return {'message': 'An internal error ocurred trying to save hotel.'}, 500
         return user.json(), 201 #created
 
-
 class UserPost(Resource):
+
+    @jwt_required()
     def post(self):
         dados = argumentos.parse_args()
         
@@ -50,8 +54,9 @@ class UserPost(Resource):
             return {'message': 'An internal error ocurred trying to save hotel.'}, 500
         return user.json()
 
-
 class UserDelete(Resource):
+    
+    @jwt_required()
     def delete(self, id):
         user = UserModel.find_user(id)
         if user:

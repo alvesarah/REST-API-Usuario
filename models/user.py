@@ -21,7 +21,6 @@ class UserModel(banco.Model):
             'nome': self.nome,
             'email': self.email,
             'telefone': self.telefone,
-            'senha': self.senha
         }
 
     @classmethod
