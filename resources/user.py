@@ -20,19 +20,7 @@ class User(Resource):
         if user:
             return user.json()
         return {'message': 'User not found.'}, 404
-
-    # def post(self, id):
-    #     if UserModel.find_user(id):
-    #         return {"message": "User id '{}' already exists.".format(id)}, 400
-
-    #     dados = argumentos.parse_args()
-    #     user = UserModel(id, **dados)
-    #     try:
-    #         user.save_user()
-    #     except:
-    #         return {'message': 'An internal error ocurred trying to save hotel.'}, 500
-    #     return user.json()
-
+class UserPut(Resource):
     def put(self, id):
         dados = argumentos.parse_args()
         user_encontrado = UserModel.find_user(id)
@@ -46,6 +34,7 @@ class User(Resource):
         except:
             return {'message': 'An internal error ocurred trying to save hotel.'}, 500
         return user.json(), 201 #created
+
 
 class UserPost(Resource):
     def post(self):
