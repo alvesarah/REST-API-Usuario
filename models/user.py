@@ -32,3 +32,8 @@ class UserModel(banco.Model):
     def save_user(self):
         banco.session.add(self)
         banco.session.commit()
+
+    def update_user(self, nome, email, telefone):
+        self.nome = nome
+        self.email = email
+        self.telefone = telefone

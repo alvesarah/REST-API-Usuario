@@ -27,15 +27,14 @@ class User(Resource):
 
     def put(self, id):
         dados = User.argumentos.parse_args()
-        user_objeto = UserModel(id, **dados)
-        novo_user = user_objeto.json()
-
-        user = User.find_user(id)
-        if user:
-            user.update(novo_user)
-            return novo_user, 200
-        users.append(novo_user)
-        return novo_user, 201
+        user_encontrado = UserModel.find_user(id)
+        if user_encontrado:
+            user_encontrado.update_user(**dados)
+            user_encontrado.save_user()
+            return user_encontrado.json(), 200 #OK
+        user = UserModel(id, **dados)
+        user.save_user()
+        return user.json(), 201 #created
 
     def delete(self, id):
         global users
