@@ -21,17 +21,17 @@ class User(Resource):
             return user.json()
         return {'message': 'User not found.'}, 404
 
-    def post(self, id):
-        if UserModel.find_user(id):
-            return {"message": "User id '{}' already exists.".format(id)}, 400
+    # def post(self, id):
+    #     if UserModel.find_user(id):
+    #         return {"message": "User id '{}' already exists.".format(id)}, 400
 
-        dados = argumentos.parse_args()
-        user = UserModel(id, **dados)
-        try:
-            user.save_user()
-        except:
-            return {'message': 'An internal error ocurred trying to save hotel.'}, 500
-        return user.json()
+    #     dados = argumentos.parse_args()
+    #     user = UserModel(id, **dados)
+    #     try:
+    #         user.save_user()
+    #     except:
+    #         return {'message': 'An internal error ocurred trying to save hotel.'}, 500
+    #     return user.json()
 
     def put(self, id):
         dados = argumentos.parse_args()
@@ -46,6 +46,22 @@ class User(Resource):
         except:
             return {'message': 'An internal error ocurred trying to save hotel.'}, 500
         return user.json(), 201 #created
+
+class UserPost(Resource):
+    def post(self):
+        dados = argumentos.parse_args()
+        
+        if UserModel.find_by_email(dados['email']):
+            return {"message": "User email '{}' already exists.".format(dados['email'])}, 400
+
+        user = UserModel(**dados)
+        try:
+            user.save_user()
+        except:
+            return {'message': 'An internal error ocurred trying to save hotel.'}, 500
+        return user.json()
+
+
 class UserDelete(Resource):
     def delete(self, id):
         user = UserModel.find_user(id)

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from resources.user import Users, User, UserDelete, UserLogin
+from resources.user import Users, User, UserPost, UserDelete, UserLogin
 from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
@@ -16,6 +16,7 @@ def cria_banco():
 
 api.add_resource(Users, '/users')
 api.add_resource(User, '/users/<int:id>')
+api.add_resource(UserPost, '/add_user')
 api.add_resource(UserDelete, '/delete_user/<int:id>')
 api.add_resource(UserLogin, '/login')
 

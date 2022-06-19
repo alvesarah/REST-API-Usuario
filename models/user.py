@@ -9,8 +9,7 @@ class UserModel(banco.Model):
     telefone = banco.Column(banco.Integer)
     senha = banco.Column(banco.String(40))
 
-    def __init__(self, id, nome, email, telefone, senha):
-        self.id = id
+    def __init__(self, nome, email, telefone, senha):
         self.nome = nome
         self.email = email
         self.telefone = telefone
