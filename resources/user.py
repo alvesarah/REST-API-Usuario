@@ -11,9 +11,9 @@ class User(Resource):
     argumentos.add_argument('telefone')
 
     def get(self, id):
-        user = User.find_user(id)
+        user = UserModel.find_user(id)
         if user:
-            return user
+            return user.json()
         return {'message': 'User not found.'}, 404
 
     def post(self, id):
