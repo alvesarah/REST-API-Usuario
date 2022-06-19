@@ -37,6 +37,8 @@ class User(Resource):
         return user.json(), 201 #created
 
     def delete(self, id):
-        global users
-        users = [user for user in users if user['id'] != id]
-        return {'messagem': 'User deleted.'}
+        user = UserModel.find_user(id)
+        if user:
+            user.delete_user()
+            return {'message': 'User deleted.'}
+        return {'message': 'User not found.'}, 404
