@@ -42,6 +42,7 @@ class User(Resource):
             return {'message': 'An internal error ocurred trying to save hotel.'}, 500
         return user.json(), 201 #created
 
+class UserDelete(Resource):
     def delete(self, id):
         user = UserModel.find_user(id)
         if user:
