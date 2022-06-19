@@ -1,15 +1,20 @@
+import email
 from flask_restful import Resource, reqparse
 from models.user import UserModel
+from flask_jwt_extended import create_access_token
+from werkzeug.security import safe_str_cmp
+
+argumentos = reqparse.RequestParser()
+argumentos.add_argument('nome', type=str,)
+argumentos.add_argument('email', type=str)
+argumentos.add_argument('telefone', type=int)
+argumentos.add_argument('senha', type=str, required=True, help="This field 'senha' cannot be left blank")
+
 class Users(Resource):
     def get(self):
         return {'users': [user.json() for user in UserModel.query.all()]}
 
 class User(Resource):   
-    argumentos = reqparse.RequestParser()
-    argumentos.add_argument('nome', type=str, required=True, help="This field 'nome' cannot be left blank")
-    argumentos.add_argument('email', type=str, required=True, help="This field 'email' cannot be left blank")
-    argumentos.add_argument('telefone', type=int)
-
     def get(self, id):
         user = UserModel.find_user(id)
         if user:
@@ -20,7 +25,7 @@ class User(Resource):
         if UserModel.find_user(id):
             return {"message": "User id '{}' already exists.".format(id)}, 400
 
-        dados = User.argumentos.parse_args()
+        dados = argumentos.parse_args()
         user = UserModel(id, **dados)
         try:
             user.save_user()
@@ -29,7 +34,7 @@ class User(Resource):
         return user.json()
 
     def put(self, id):
-        dados = User.argumentos.parse_args()
+        dados = argumentos.parse_args()
         user_encontrado = UserModel.find_user(id)
         if user_encontrado:
             user_encontrado.update_user(**dados)
@@ -41,7 +46,6 @@ class User(Resource):
         except:
             return {'message': 'An internal error ocurred trying to save hotel.'}, 500
         return user.json(), 201 #created
-
 class UserDelete(Resource):
     def delete(self, id):
         user = UserModel.find_user(id)
@@ -52,3 +56,16 @@ class UserDelete(Resource):
                 return {'message': 'An internal error ocurred trying to delete user.'}, 500
             return {'message': 'User deleted.'}
         return {'message': 'User not found.'}, 404
+
+class UserLogin(Resource):
+    
+    @classmethod
+    def post(cls):
+        dados = argumentos.parse_args()
+
+        user = UserModel.find_by_email(dados['email'])
+
+        if user and safe_str_cmp(user.senha, dados['senha']):
+            token_de_acesso = create_access_token(identity=user.id)
+            return {'acess_token': token_de_acesso}, 200
+        return {'message': 'The username or password is incorrect.'}, 401
