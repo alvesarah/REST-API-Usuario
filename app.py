@@ -40,5 +40,5 @@ api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
 api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 
-# if __name__ == '__main__':
-    # app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
