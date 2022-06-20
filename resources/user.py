@@ -45,6 +45,9 @@ class UserPut(Resource):
     @jwt_required()
     def put(self, id):
         dados = argumentos.parse_args()
+        if dados.get('ativado') is None:
+            return {"message": "The field 'ativado' cannot be left blank"}, 400
+
         user_encontrado = UserModel.find_user(id)
         if user_encontrado:
             user_encontrado.update_user(**dados)
@@ -63,10 +66,12 @@ class UserPost(Resource):
         dados = argumentos.parse_args()
         if not dados.get('email') or dados.get('email') is None:
             return {"message": "The field 'email' cannot be left blank"}, 400
-        
-        if UserModel.find_by_email(dados['email']):
-            return {"message": "User email '{}' already exists.".format(dados['email'])}, 400
 
+        if UserModel.find_by_email(dados['email']):
+            return {"message": "The email '{}' already exists.".format(dados['email'])}, 400
+
+        if UserModel.find_by_email(dados['email']):
+            return {"message": "The email '{}' already exists.".format(dados['email'])}
         user = UserModel(**dados)
         user.ativado = False
         try:
@@ -76,7 +81,7 @@ class UserPost(Resource):
             user.delete_user()
             traceback.print_exc()
             return {'message': 'An internal server error has ocurred'}, 500
-        return user.json()
+        return {'message': 'User created sucessfully!'}, 201
 
 class UserDelete(Resource):
     

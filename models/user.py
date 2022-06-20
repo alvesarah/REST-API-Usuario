@@ -63,11 +63,12 @@ class UserModel(banco.Model):
         banco.session.add(self)
         banco.session.commit()
 
-    def update_user(self, nome, email, telefone, senha):
+    def update_user(self, nome, email, telefone, senha, ativado):
         self.nome = nome
         self.email = email
         self.telefone = telefone
         self.senha = senha
+        self.ativado = ativado
 
     def delete_user(self):
         banco.session.delete(self)

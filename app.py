@@ -5,7 +5,6 @@ from resources.user import Users, User, UserPut, UserPost, UserDelete, UserLogin
 from flask_jwt_extended import JWTManager
 from sql_alchemy import banco
 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -14,10 +13,6 @@ app.config['JWT_BLACKLIST_ENABLED'] = True
 banco.init_app(app)
 api =  Api(app)
 jwt = JWTManager(app)
-
-@app.route('/')
-def index():
-    return '<h1>Bem vindo a API!</h1>'
 
 @app.before_first_request
 def cria_banco():
