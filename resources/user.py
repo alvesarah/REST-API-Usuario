@@ -57,7 +57,6 @@ class UserPut(Resource):
 
 class UserPost(Resource):
 
-    @jwt_required()
     def post(self):
         dados = argumentos.parse_args()
         
