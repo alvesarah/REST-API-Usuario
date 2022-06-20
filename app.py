@@ -3,6 +3,7 @@ from flask_restful import Api
 from blacklist import BLACKLIST
 from resources.user import Users, User, UserPut, UserPost, UserDelete, UserLogin, UserLogout, UserConfirm
 from flask_jwt_extended import JWTManager
+import logging
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
@@ -37,3 +38,7 @@ if __name__ == '__main__':
     from sql_alchemy import banco
     banco.init_app(app)
     app.run(debug=True)
+
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
