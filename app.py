@@ -3,7 +3,8 @@ from flask_restful import Api
 from blacklist import BLACKLIST
 from resources.user import Users, User, UserPut, UserPost, UserDelete, UserLogin, UserLogout, UserConfirm
 from flask_jwt_extended import JWTManager
-from flask_sqlalchemy import SQLAlchemy
+from sql_alchemy import banco
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
@@ -12,7 +13,6 @@ app.config['JWT_SECRET_KEY'] = 'DontTellAnyone'
 app.config['JWT_BLACKLIST_ENABLED'] = True
 api =  Api(app)
 jwt = JWTManager(app)
-banco = SQLAlchemy(app)
 
 @app.before_first_request
 def cria_banco():
@@ -36,4 +36,5 @@ api.add_resource(UserLogout, '/logout')
 api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 
 if __name__ == '__main__':
+    banco.init_app(app)
     app.run(debug=True)
