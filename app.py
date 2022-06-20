@@ -11,8 +11,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'DontTellAnyone'
 app.config['JWT_BLACKLIST_ENABLED'] = True
+banco.init_app(app)
 api =  Api(app)
 jwt = JWTManager(app)
+
+@app.route('/')
+def index():
+    return '<h1>Bem vindo a API!</h1>'
 
 @app.before_first_request
 def cria_banco():
@@ -35,6 +40,5 @@ api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
 api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 
-if __name__ == '__main__':
-    banco.init_app(app)
-    app.run(debug=True)
+# if __name__ == '__main__':
+    # app.run(debug=True)
