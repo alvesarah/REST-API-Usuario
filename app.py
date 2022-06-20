@@ -19,7 +19,6 @@ jwt = JWTManager(app)
 def index():
     headers = {'Content-Type': 'text/html'}
     return make_response(render_template('index.html'), headers)
-    # return '<h1 style="text-align:center">Bem vindo a API!</h1><img src="https://media.discordapp.net/attachments/966757360469172385/988370431478210570/euAnimada.gif" style="width:150px">'
 
 @app.before_first_request
 def cria_banco():
