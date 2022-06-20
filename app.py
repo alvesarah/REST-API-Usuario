@@ -4,6 +4,7 @@ from blacklist import BLACKLIST
 from resources.user import Users, User, UserPut, UserPost, UserDelete, UserLogin, UserLogout, UserConfirm
 from flask_jwt_extended import JWTManager
 from sql_alchemy import banco
+from flask import render_template, make_response
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
@@ -16,7 +17,9 @@ jwt = JWTManager(app)
 
 @app.route('/')
 def index():
-    return '<h1 style="text-align:center">Bem vindo a API!</h1><img src="https://media.discordapp.net/attachments/966757360469172385/988370431478210570/euAnimada.gif" style="width:150px">'
+    headers = {'Content-Type': 'text/html'}
+    return make_response(render_template('index.html'), headers)
+    # return '<h1 style="text-align:center">Bem vindo a API!</h1><img src="https://media.discordapp.net/attachments/966757360469172385/988370431478210570/euAnimada.gif" style="width:150px">'
 
 @app.before_first_request
 def cria_banco():
