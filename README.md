@@ -4,6 +4,27 @@ Este documento explicita com exemplos, como utilizar os recursos disponíveis no
 
 ---
 
+## 🛠 Tecnologias
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+#### **API**
+
+-   **[Flask](https://flask.palletsprojects.com/en/2.1.x/)**
+-   **[Jinja](https://jinja.palletsprojects.com/en/3.1.x/)**
+-   **[Werkzeug](https://pypi.org/project/Werkzeug/)**
+-   **[SQLite](https://www.sqlite.org/index.html)**
+-   **[SQLAlchemy](https://www.sqlalchemy.org/)**
+
+
+#### **Utilitários**
+
+-   Editor:  **[Visual Studio Code](https://code.visualstudio.com/)**
+-   Teste de API:  **[Insomnia](https://insomnia.rest/)**, **[Postman](https://www.postman.com/)**
+
+---
+
+
 ## Deploy :fax:
 - **[Link deploy](https://restapiusuario.herokuapp.com)**
 ---
@@ -207,6 +228,4 @@ Exemplo de Requisição para fazer logout de usuário. Envia-se o token de acess
 Exemplo de Resposta: mensagem de sucesso informando que o usuário foi deslogado. Ao tentar usar esse token de acesso em qualquer requisição, ele não funcionará mais, a não ser que o usuário faça o login.
 
 <img src="https://media.discordapp.net/attachments/988397455919943683/988431645453463592/Status_10.png" style="width:400px">
-
-
 
