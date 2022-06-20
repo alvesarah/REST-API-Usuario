@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+from flask import render_template, make_response
 from models.user import UserModel
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 from werkzeug.security import safe_str_cmp
@@ -6,7 +7,7 @@ from blacklist import BLACKLIST
 import traceback
 
 argumentos = reqparse.RequestParser()
-argumentos.add_argument('nome', type=str, required=True, help="This field 'nome' cannot be left blank")
+argumentos.add_argument('nome', type=str)
 argumentos.add_argument('email', type=str, required=True, help="This field 'email' cannot be left blank")
 argumentos.add_argument('telefone', type=int)
 argumentos.add_argument('senha', type=str, required=True, help="This field 'senha' cannot be left blank")
@@ -124,4 +125,5 @@ class UserConfirm(Resource):
 
         user.ativado = True
         user.save_user()
-        return {"message": "User id '{}' confirmed successfully!".format(id)}, 200
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('user_confirm.html', email=user.email), 200, headers)
