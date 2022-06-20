@@ -1,4 +1,3 @@
-#pip freeze > requirements.txt
 aniso8601==9.0.1
 certifi==2022.6.15
 charset-normalizer==2.0.12
