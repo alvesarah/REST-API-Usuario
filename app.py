@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_restful import Api
 from blacklist import BLACKLIST
-from resources.user import Users, User, UserPut, UserPost, UserDelete, UserLogin, UserLogout
+from resources.user import Users, User, UserPut, UserPost, UserDelete, UserLogin, UserLogout, UserConfirm
 from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
@@ -31,6 +31,7 @@ api.add_resource(UserPost, '/add_user')
 api.add_resource(UserDelete, '/delete_user/<int:id>')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
+api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 
 if __name__ == '__main__':
     from sql_alchemy import banco

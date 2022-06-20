@@ -9,11 +9,28 @@ argumentos.add_argument('nome', type=str,)
 argumentos.add_argument('email', type=str)
 argumentos.add_argument('telefone', type=int)
 argumentos.add_argument('senha', type=str, required=True, help="This field 'senha' cannot be left blank")
+argumentos.add_argument('ativado', type=bool)
 
 class Users(Resource):
-    def get(self):
-        return {'users': [user.json() for user in UserModel.query.all()]}
+    query_params = reqparse.RequestParser()
+    query_params.add_argument("nome", type=str, default="", location="args")
+    query_params.add_argument("email", type=str, default="", location="args")
+    query_params.add_argument("telefone", type=int, default="", location="args")
 
+    def get(self):
+        filters = Users.query_params.parse_args()
+ 
+        query = UserModel.query
+ 
+        if filters["nome"]:
+            query = query.filter(UserModel.nome == filters["nome"])
+        if filters["email"]:
+            query = query.filter(UserModel.email == filters["email"])
+        if filters["telefone"]:
+            query = query.filter(UserModel.telefone == filters["telefone"])
+ 
+        return {"users": [user.json() for user in query]}
+        
 class User(Resource):   
     def get(self, id):
         user = UserModel.find_user(id)
@@ -48,6 +65,7 @@ class UserPost(Resource):
             return {"message": "User email '{}' already exists.".format(dados['email'])}, 400
 
         user = UserModel(**dados)
+        user.ativado = False
         try:
             user.save_user()
         except:
@@ -76,8 +94,10 @@ class UserLogin(Resource):
         user = UserModel.find_by_email(dados['email'])
 
         if user and safe_str_cmp(user.senha, dados['senha']):
-            token_de_acesso = create_access_token(identity=user.id)
-            return {'acess_token': token_de_acesso}, 200
+            if user.ativado:
+                token_de_acesso = create_access_token(identity=user.id)
+                return {'acess_token': token_de_acesso}, 200
+            return {'message': 'User not confirmed.'}
         return {'message': 'The username or password is incorrect.'}, 401
 
 class UserLogout(Resource):
@@ -87,3 +107,16 @@ class UserLogout(Resource):
         jwt_id = get_jwt()['jti'] #JWT Token Identifier
         BLACKLIST.add(jwt_id)
         return {'message': 'Logged out successfully!'}, 200
+
+class UserConfirm(Resource):
+    #raiz_do_site/confirmacao/{user_id}
+    @classmethod
+    def get(cls, id):
+        user = UserModel.find_user(id)
+
+        if not user:
+            return {"message": "User id '{}' not found.".format(id)}, 404
+
+        user.ativado = True
+        user.save_user()
+        return {"message": "User id '{}' confirmed successfully!".format(id)}, 200
