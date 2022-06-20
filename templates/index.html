@@ -4,9 +4,104 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOCORRO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel = "icon" href = "https://cdn-icons-png.flaticon.com/512/7831/7831732.png" type = "image/x-icon">
+    <title>REST API Usuário</title>
 </head>
+<style type="text/css">
+    body {
+        background-color: #EEEEEE;
+    }
+    .titulo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+    }
+    h1 {
+        font-family: 'Nanum Gothic', sans-serif;
+        margin-right: 10px;
+    }
+    img{
+        width: 200px;
+        border-radius: 100px;
+    }
+    .tabela{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 70px;
+    }
+    table{
+        border-color: #EFB7B7;
+    }
+    tr, td{
+        text-align: center;
+        padding: 10px;
+        font-size: 18px;
+        font-family: 'Nanum Gothic', sans-serif;
+    }
+</style>
 <body>
-    <h1>TESTE</h1>
+    <div class="titulo">
+        <h1>Bem vindo a API Usuários!</h1>
+        <img src="https://media.discordapp.net/attachments/966757360469172385/988370431478210570/euAnimada.gif">
+    </div>
+    <div class="tabela">
+        <table border="4">
+            <tr>
+                <td>Método</td>
+                <td>Rota</td>
+                <td>Descrição</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/users</td>
+                <td>Mostra todos os usuarios</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/user&filtro=filtro</td>
+                <td>Mostra o usuário de acordo com o filtro</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/users/{id}</td>
+                <td>Mostra o usuário de acordo com o id escolhido</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/add_user</td>
+                <td>Cria um novo usuário</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/login</td>
+                <td>Loga com o usuário que foi criado</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/logout</td>
+                <td>Desloga do usuário que foi logado</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/edit_user/{id}</td>
+                <td>Atualiza as informações do id escolhido</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td>/delete_user/{id}</td>
+                <td>Deleta o usuário</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/confirmacao/{id}</td>
+                <td>Confirma o cadastro</td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

@@ -54,6 +54,7 @@ Como resposta, obtém-se uma lista de usuários que se enquadram nos filtros de 
 <img src="https://media.discordapp.net/attachments/988397455919943683/988402737307865099/Status_1.png" style="width:400px">
 
 ---
+
 <h3>:small_blue_diamond: Consultar usuário específico => /users/{id} </h3>
 * Não é necessário estar logado
 <h4>:heavy_check_mark: Requisição :heavy_check_mark:</h4>
@@ -130,6 +131,7 @@ Exemplo de Requisição de id que não existe.
 Como resposta, obtém-se uma mensagem de erro 404 não encontrado, informando que o id do usuário não existe.
 
 <img src="https://media.discordapp.net/attachments/988397455919943683/988417026047492196/Status_5.png" style="width:400px">
+
 ---
 
 <h3>:small_blue_diamond: Login de Usuário => /login </h3>
