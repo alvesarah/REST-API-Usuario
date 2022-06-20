@@ -3,10 +3,11 @@ from models.user import UserModel
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 from werkzeug.security import safe_str_cmp
 from blacklist import BLACKLIST
+import traceback
 
 argumentos = reqparse.RequestParser()
-argumentos.add_argument('nome', type=str,)
-argumentos.add_argument('email', type=str)
+argumentos.add_argument('nome', type=str, required=True, help="This field 'nome' cannot be left blank")
+argumentos.add_argument('email', type=str, required=True, help="This field 'email' cannot be left blank")
 argumentos.add_argument('telefone', type=int)
 argumentos.add_argument('senha', type=str, required=True, help="This field 'senha' cannot be left blank")
 argumentos.add_argument('ativado', type=bool)
@@ -59,6 +60,8 @@ class UserPost(Resource):
 
     def post(self):
         dados = argumentos.parse_args()
+        if not dados.get('email') or dados.get('email') is None:
+            return {"message": "The field 'email' cannot be left blank"}, 400
         
         if UserModel.find_by_email(dados['email']):
             return {"message": "User email '{}' already exists.".format(dados['email'])}, 400
@@ -67,8 +70,11 @@ class UserPost(Resource):
         user.ativado = False
         try:
             user.save_user()
+            user.send_confirmation_email()
         except:
-            return {'message': 'An internal error ocurred trying to save hotel.'}, 500
+            user.delete_user()
+            traceback.print_exc()
+            return {'message': 'An internal server error has ocurred'}, 500
         return user.json()
 
 class UserDelete(Resource):
