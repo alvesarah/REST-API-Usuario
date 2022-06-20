@@ -14,6 +14,10 @@ banco.init_app(app)
 api =  Api(app)
 jwt = JWTManager(app)
 
+@app.route('/')
+def index():
+    return '<h1>Bem vindo a API!</h1><img src="https://media.discordapp.net/attachments/966757360469172385/988370431478210570/euAnimada.gif">'
+
 @app.before_first_request
 def cria_banco():
     banco.create_all()
